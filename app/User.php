@@ -10,7 +10,6 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
  * App\User
  *
  * @property int $id
- * @property string $name
  * @property string $email
  * @property string|null $email_verified_at
  * @property string $password
@@ -41,7 +40,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'email', 'password',
     ];
 
     /**
@@ -52,4 +51,10 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    public function profile()
+    {
+        return $this->hasOne('App\Profile');
+    }
 }
+
