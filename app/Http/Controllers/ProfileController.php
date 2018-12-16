@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use App\Profile;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -25,7 +25,9 @@ class ProfileController extends Controller
      */
     public function create()
     {
-        //
+        $profile = new Profile();
+        $edit = FALSE;
+        return view('profileForm', ['profile' => $profile,'edit' => $edit  ]);
     }
 
     /**
@@ -36,7 +38,20 @@ class ProfileController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $input = $request->validate([
+            'fname' => 'required',
+            'lname' => 'required',
+            'body' => 'required',
+        ], [
+            'fname.required' => ' First is required',
+            'lname.required' => ' Last is required',
+            'body.required' => ' Body is required',
+        ]);
+        $input = request()->all();
+        $profile = new Profile($input);
+        $profile->user()->associate(Auth::user());
+        $profile->save();
+        return redirect()->route('home')->with('message', 'Profile Created');
     }
 
     /**
