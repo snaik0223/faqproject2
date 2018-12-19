@@ -23,5 +23,3 @@
         </div>
     </div>
 @endsection
-
-testing abc
